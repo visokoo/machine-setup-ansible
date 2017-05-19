@@ -1,0 +1,20 @@
+---
+- hosts: pi
+  tasks:
+  - name: "Add docker GPG key"
+    apt_key:
+      url: "https://download.docker.com/linux/ubuntu/gpg"
+      state: present
+  - name: "Add docker repository"
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable
+  - name: "Install a bunch of necessities"
+    apt: name={{ item }} state=present update_cache=yes
+    with_items:
+      - vim
+      - wireless-tools
+      - wpasupplicant 
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - docker-ce
